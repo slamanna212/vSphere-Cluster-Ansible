@@ -13,7 +13,7 @@
   notify: restart mysql       
   
 
-- name: Add files for other playbooks
+- name: Ensure .my.cnf exists
   copy:
     src: .my.cnf
     dest: /home/ansible/.my.cnf
