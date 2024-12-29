@@ -1,0 +1,20 @@
+---
+- name: Install required system packages
+  apt: name={{ sys_packages }} state=present
+
+# Upload SSH Config
+- name: Upload custom sqlmode file
+  become: yes
+  become_user: root
+  copy:
+    src: 00-servermode.cnf
+    dest: /etc/mysql/mariadb.conf.d/00-servermode.cnf
+    remote_src: no
+  notify: restart mysql       
+  
+
+- name: Add files for other playbooks
+  copy:
+    src: .my.cnf
+    dest: /home/ansible/.my.cnf
+    remote_src: no
