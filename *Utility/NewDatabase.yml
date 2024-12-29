@@ -1,0 +1,33 @@
+#########################################################
+# Create New Database
+#########################################################
+---
+- hosts: database[0]
+  become: true
+
+    # DB Config
+- hosts: database[0]
+  vars_prompt:
+    - name: sqluser
+      prompt: Please provide an SQL username
+      private: no
+
+    - name: sqlpass
+      prompt: Please Provide an SQL Password   
+
+    - name: sqlname
+      prompt: Please provide an SQL database name
+      private: no
+  tasks: 
+        - name: Create the database'
+          community.mysql.mysql_db:
+            name: "{{ sqlname }}"
+            state: present 
+
+        - name: Create database user and great access
+          community.mysql.mysql_user:
+            name: "{{ sqluser }}"
+            password: "{{ sqlpass }}"
+            priv: '{{ sqlname }}.*:ALL'
+            host: 10.90.90.% 
+            state: present       
