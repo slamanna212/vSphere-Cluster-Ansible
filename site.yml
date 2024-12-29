@@ -1,0 +1,8 @@
+---
+# This playbook deploys the entire web hosting stack
+
+- name: Configure and deploy the Database
+  hosts: database
+  become: true
+  roles:
+    - mariadb
