@@ -10,4 +10,15 @@ Ansible playbooks for cluster running on local vSphere server
 6. Build your inventory and deploy the rest of the palybooks
 
 # Host Groups
-*Coming Soon*
+ - [control]
+ - [loadbalancers]
+ - [web]
+ - [wp-admin]
+ - [nfs-server]
+ - [database]
+ - [tunnel]
+ - [zabbix-server]
+ - [logging]
+ - [bluesky]
+ - [ubuntu22]
+ - [ubuntu24]
