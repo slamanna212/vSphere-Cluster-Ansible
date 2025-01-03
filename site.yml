@@ -23,3 +23,11 @@
     - ubuntu
     - nfs-client
     - control
+
+- name: Configure and deploy the Web Servers
+  hosts: web
+  become: true
+  roles:
+    - ubuntu
+    - nfs-client
+    - nginx
