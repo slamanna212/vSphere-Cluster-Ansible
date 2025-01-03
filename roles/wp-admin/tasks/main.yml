@@ -1,0 +1,102 @@
+---
+# Add Nginx Repo
+- name: Add Nginx APT Key
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: ABF5BD827BD9BF62
+
+- name: Add Nginx APT Repo
+  become: yes
+  become_user: root            
+  copy: 
+    src: nginx.list
+    dest:  /etc/apt/sources.list.d/nginx.list
+    backup: no                      
+
+- name: Install required system packages
+  apt: 
+    name={{ sys_packages }} 
+    state=present
+    update_cache=yes
+
+- name: Adds ansible user to www-data group
+  user:
+    name: ansible
+    state: present
+    groups: www-data
+    append: true
+
+# Configure Nginx
+- name: Remove default Nginx site config
+  ansible.builtin.file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+  notify: restart nginx    
+
+- name: Update Nginx config
+  template: 
+    src=nginx.conf 
+    dest=/etc/nginx/nginx.conf 
+    backup=no
+  notify: restart nginx        
+
+# Configure PHP
+- name: Copy PHP config
+  become: yes
+  become_user: root            
+  copy: 
+    src: php.ini 
+    dest: /etc/php/8.3/fpm/php.ini
+    backup: no                      
+  notify: restart php-fpm    
+
+- name: Update php-fpm pool config
+  become: yes
+  become_user: root            
+  copy: 
+    src: www.conf 
+    dest: /etc/php/8.3/fpm/pool.d/www.conf 
+    backup: no
+  notify: restart php-fpm        
+
+# Configure FastCGI Cache
+- name: Find all current live websites
+  find:
+    paths: /mnt/Web/Websites/Wordpress/
+    file_type: directory
+  register: find_result
+
+- name: Create cache directories if missing
+  become: yes
+  become_user: root            
+  file:
+    path: "/opt/Cache/{{ item }}"
+    state: directory
+  loop: "{{ find_result['files'] | map(attribute='path') | map('regex_replace','^.*/(.*)$','\\1') | list }}"
+
+- name: Set permissions on cache directorys
+  become: yes
+  become_user: root            
+  ansible.builtin.file:
+    path: /opt/Cache/
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+# WP-CLI
+- name: Check if WP_CLI exists
+  stat: path="/usr/local/bin/wp"
+  register: wpcli_exist
+
+- name: Updating WP-CLI
+  shell: "/usr/local/bin/wp cli update --yes"
+  when: wpcli_exist.stat.exists
+
+- name: Download WP-CLI
+  get_url:
+    url="https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
+    dest="/usr/local/bin/wp"
+    force_basic_auth=yes
+    mode=0755
+  when: not wpcli_exist.stat.exists    
