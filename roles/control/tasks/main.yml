@@ -54,7 +54,7 @@
   become: yes
   become_user: root            
   template: 
-    src: xmlrpc.conf
+    src: xmlrpc
     dest:  /mnt/Web/Snippets/xmlrpc.conf
     backup: no
     owner: www-data
