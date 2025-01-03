@@ -50,7 +50,7 @@
     group: www-data
     mode: 0644
 
-- name: Add XML-RPC Block snippet if missing
+- name: Update XML-RPC Block snippet
   become: yes
   become_user: root            
   template: 
