@@ -1,0 +1,20 @@
+---
+- name: Install required system packages
+  become: yes
+  apt: name={{ sys_packages }} state=present
+  
+
+# Mount the NFS Share for config files
+- name: Create Web directory if its missing
+  ansible.builtin.file:
+    path: /mnt/Web
+    state: directory
+    mode: '0755'
+
+- name: Mount the Web NFS Share
+  ansible.posix.mount:
+    src: "{{ hostvars[groups['nfs-server'][0]].ansible_host }}:/mnt/Web"
+    path: /mnt/Web
+    opts: rw,sync,hard,nointr,fsc,actimeo=60
+    state: mounted
+    fstype: nfs     
