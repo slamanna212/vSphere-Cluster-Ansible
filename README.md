@@ -20,5 +20,4 @@ Ansible playbooks for cluster running on local vSphere server
  - [zabbix-server]
  - [logging]
  - [bluesky]
- - [ubuntu22]
- - [ubuntu24]
+ - [ubuntu]
