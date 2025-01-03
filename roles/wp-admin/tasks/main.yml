@@ -99,4 +99,4 @@
     dest="/usr/local/bin/wp"
     force_basic_auth=yes
     mode=0755
-  when: not wpcli_exist.stat.exists    
+  when: not wpcli_exist.stat.exists
