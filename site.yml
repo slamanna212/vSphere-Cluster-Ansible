@@ -16,5 +16,11 @@
     - nfs-server
     - ubuntu
 
+- name: Configure and deploy the Control Server
+  hosts: control
+  become: true
+  roles:
+    - control
+    - ubuntu
 
-#ADD WEB SERVER ROLE TO CONTROL SERVER, ABOVE CONTROL ROLE. DIRECTORY NEEDS TO EXIST BEFORE WE TRY TO PUT FILES ON IT    
+#ADD NFS-CLIENT TO CONTROL SERVER, ABOVE CONTROL ROLE. DIRECTORY NEEDS TO EXIST BEFORE WE TRY TO PUT FILES ON IT    
