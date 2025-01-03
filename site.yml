@@ -6,21 +6,20 @@
   hosts: database
   become: true
   roles:
-    - mariadb
     - ubuntu
+    - mariadb
 
 - name: Configure and deploy the NFS Server
   hosts: nfs-server
   become: true
   roles:
+    - ubuntu  
     - nfs-server
+
+- name: Configure and deploy the Control Server
+  hosts: control
+  become: true
+  roles:
     - ubuntu
-
-#- name: Configure and deploy the Control Server
-#  hosts: control
-#  become: true
-#  roles:
-#    - control
-#    - ubuntu
-
-#ADD NFS-CLIENT TO CONTROL SERVER, ABOVE CONTROL ROLE. DIRECTORY NEEDS TO EXIST BEFORE WE TRY TO PUT FILES ON IT    
+    - nfs-client
+    - control
