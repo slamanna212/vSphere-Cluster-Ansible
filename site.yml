@@ -1,6 +1,6 @@
 ---
 # This playbook deploys the entire web hosting stack
-# Database, then file, then control, then web, wpadmin, lb
+# Database, then file, then control, then web, wpadmin, lb, , Health, Log, Bluesky
 
 - name: Configure and deploy the Database
   hosts: database
