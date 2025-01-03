@@ -31,3 +31,11 @@
     - ubuntu
     - nfs-client
     - nginx
+
+- name: Configure and deploy the Wordpress Admin Servers
+  hosts: web
+  become: true
+  roles:
+    - ubuntu
+    - nfs-client
+    - wp-admin
