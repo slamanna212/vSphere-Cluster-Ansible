@@ -39,3 +39,13 @@
     - ubuntu
     - nfs-client
     - wp-admin
+
+- name: Configure and deploy the balance tier
+  hosts: loadbalancers
+  become: true
+  vars:
+    webnodes: "{{ groups['web'] }}"
+    wpanodes: "{{ groups['wp-admin'] }}"
+  roles:
+    - ubuntu  
+    - haproxy
