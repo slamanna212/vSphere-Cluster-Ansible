@@ -1,0 +1,22 @@
+#fastcgi_cache_path /opt/Cache/{{domain}}/ levels=1:2 keys_zone={{domain}}:100m inactive=60m;
+server {
+        listen 80;
+        listen [::]:80;
+        server_name {{domain}} {{domain2}};
+        root /mnt/Web/Websites/Wordpress/{{domain}}/public_html;
+        index index.php index.html index.htm;
+
+        access_log /var/log/nginx/{{domain}}.access.log;
+        error_log /var/log/nginx/{{domain}}.error.log;
+
+#        set $cache {{domain}};
+
+        location = /favicon.ico { log_not_found off; access_log off; }
+        location = /robots.txt { log_not_found off; access_log off; allow all; }
+
+        include /mnt/Web/Snippets/php.conf;
+        include /mnt/Web/Snippets/fastcgicache.conf;
+        include /mnt/Web/Snippets/cache-control.conf;
+        include /mnt/Web/Snippets/wp-block.conf;
+        include /mnt/Web/Snippets/xmlrpc.conf;
+}

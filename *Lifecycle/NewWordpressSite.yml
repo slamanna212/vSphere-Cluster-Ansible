@@ -1,0 +1,174 @@
+#########################################################
+# Create New Wordpress Site
+#########################################################
+---
+- hosts: database[0]:wp-admin[0]
+  become: true
+
+
+    # DB Config
+- hosts: database[0]
+  vars_prompt:
+    - name: sqluser
+      prompt: Please provide an SQL username
+      private: no
+
+    - name: sqlpass
+      prompt: Please Provide an SQL Password   
+
+    - name: sqlname
+      prompt: Please provide an SQL database name
+      private: no
+  tasks: 
+        - name: Create a new database for website'
+          community.mysql.mysql_db:
+            name: "{{ sqlname }}"
+            state: present 
+
+        - name: Create database user and great access to database
+          community.mysql.mysql_user:
+            name: "{{ sqluser }}"
+            password: "{{ sqlpass }}"
+            priv: '{{ sqlname }}.*:ALL'
+            host: 10.123.0.% 
+            state: present       
+
+        - name: "Add SQL info to dummy host for use later in this playbook"
+          add_host:
+            name:   "SQLINFOHOLDER"
+            sqluser:  "{{ sqluser }}"
+            sqlpass:   "{{ sqlpass }}"
+            sqlname:   "{{ sqlname }}"            
+
+
+    # Nginx Config
+- hosts: wp-admin[0]  
+  vars_prompt:
+    - name: domain
+      prompt: What is the domain of the website
+      private: no
+
+    - name: domain2
+      prompt: Is there a second domain for the website, like www.domain.com | Leave blank if no
+      private: no   
+  tasks: 
+          - name: Create site directory if missing
+            become: yes
+            become_user: root  
+            ansible.builtin.file:
+              path: /mnt/Web/Websites/Wordpress/{{ domain }}
+              state: directory
+
+          - name: Add Nginx vhost for website
+            become: yes
+            become_user: root             
+            template: src=templates/wpnginxvhost 
+                        dest=/mnt/Web/VHosts/{{ domain }} 
+                        backup=no
+                        owner=www-data
+                        group=www-data
+                        mode=0644
+
+          - name: "Add domain info to dummy host for use later in this playbook"
+            add_host:
+              name:   "WEBINFOHOLDER"
+              domain:  "{{ domain }}"
+
+
+    # Wordpress Config
+          - name: Download and extract wordpress files
+            become: yes
+            become_user: root          
+            ansible.builtin.unarchive:
+              src: https://wordpress.org/latest.tar.gz
+              dest: /mnt/Web/Websites/Wordpress/{{ domain }}/
+              remote_src: yes    
+
+          - name: Move wordpress files to public directory
+            become: yes
+            become_user: root   
+            command: mv /mnt/Web/Websites/Wordpress/{{ domain }}/wordpress /mnt/Web/Websites/Wordpress/{{ domain }}/public_html
+
+          - name: Add custom WP-Config
+            become: yes
+            become_user: root             
+            template: src=templates/wp-config.php 
+                        dest=/mnt/Web/Websites/Wordpress/{{ domain }}/public_html/wp-config.php 
+                        backup=no                
+
+          - name: Create robots.txt file
+            become: yes
+            become_user: root
+            template: src=templates/robots.txt
+                          dest=/mnt/Web/Websites/Wordpress/{{ domain }}/public_html/robots.txt
+                          backup=no
+
+    # Cleanup
+          - name: Set permissions on web directory
+            become: yes
+            become_user: root            
+            ansible.builtin.file:
+              path: /mnt/Web/Websites/Wordpress/{{ domain }}
+              state: directory
+              owner: www-data
+              group: www-data
+              recurse: yes
+
+  #Have to generate a random number to be used for cron to prevent them all happening at once 
+          - name: Genrate Random Cron Time 1
+            set_fact:
+              num1: "{{30 | random(start=1) }}"
+
+          - name: Genrate Random Cron Time 2
+            set_fact:
+              num2: "{{59 | random(start=31) }}"
+
+          - name: Add cron entry for new Website
+            become: true
+            ansible.builtin.lineinfile:
+              path=/mnt/Web/Ansible/wpcron
+              state=present
+              insertafter="\# * \#"
+              line="{{num1}},{{num2}} * * * * www-data wget https://{{ domain }}/wp-cron.php?doing_cron &> /dev/null"
+
+- hosts: web
+  become: true
+  tasks: 
+          - name: Create cache directory for new site
+            become: yes
+            become_user: root  
+            ansible.builtin.file:
+              path: /opt/Cache/{{ hostvars['WEBINFOHOLDER']['domain'] }}
+              state: directory
+
+          - name: Set permissions on cache directory
+            become: yes
+            become_user: root            
+            ansible.builtin.file:
+              path: /opt/Cache/{{ hostvars['WEBINFOHOLDER']['domain'] }}
+              state: directory
+              owner: www-data
+              group: www-data
+              recurse: yes
+              
+          - name: Reload Nginx to pick up the new website
+            ansible.builtin.systemd: 
+              name: nginx
+              state: reloaded
+
+- hosts: wp-admin[0]
+  become: true
+  tasks: 
+          - name: Update cron file for new website
+            become: yes
+            become_user: root            
+            copy: 
+              src: /mnt/Web/Ansible/wpcron
+              dest: /etc/cron.d/wpcron
+              mode: '0644'
+              backup: no
+              
+          - name: Reload Nginx to pick up the new website
+            ansible.builtin.systemd: 
+              name: nginx
+              state: reloaded
