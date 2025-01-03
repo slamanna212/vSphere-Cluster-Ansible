@@ -33,7 +33,7 @@
     - nginx
 
 - name: Configure and deploy the Wordpress Admin Servers
-  hosts: web
+  hosts: wp-admin
   become: true
   roles:
     - ubuntu
