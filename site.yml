@@ -7,9 +7,11 @@
   become: true
   roles:
     - mariadb
+    - ubuntu
 
 - name: Configure and deploy the NFS Server
   hosts: nfs-server
   become: true
   roles:
     - nfs-server
+    - ubuntu
