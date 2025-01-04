@@ -55,6 +55,7 @@
   become: true
   roles:
     - ubuntu
+    - zabbix-agent
 
 - name: Configure and deploy Bluesky PDS
   hosts: bluesky
