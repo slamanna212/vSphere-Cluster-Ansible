@@ -6,7 +6,7 @@
     jetpack_ips: "{{ lookup('ansible.builtin.url', 'https://jetpack.com/ips-v4.txt', wantlist=True) }}"
 
 # Placing them here is super weird , but it ensures they are there before any web servers needing them start. 
-- name: Add Resource Cache Control snippet if missing
+- name: Place Resource Cache Control snippet
   become: yes
   become_user: root            
   copy: 
@@ -17,7 +17,7 @@
     group: www-data
     mode: 0644
 
-- name: Add our FastCGI Cache snippet if missing
+- name: Place FastCGI Cache snippet
   become: yes
   become_user: root            
   copy: 
@@ -28,7 +28,7 @@
     group: www-data
     mode: 0644
 
-- name: Add PHP snippet if missing
+- name: Place PHP snippet
   become: yes
   become_user: root            
   copy: 
@@ -39,7 +39,7 @@
     group: www-data
     mode: 0644
 
-- name: Add Wordpress Security snippet if missing
+- name: Place Wordpress Security snippet
   become: yes
   become_user: root            
   copy: 
