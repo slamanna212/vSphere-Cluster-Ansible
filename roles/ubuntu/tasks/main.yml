@@ -1,3 +1,8 @@
 ---
 - name: Upgrade all packages
   apt: upgrade=dist force_apt_get=yes
+
+- name: Set timezone to Eastern
+  become: true
+  community.general.timezone:
+    name: America/New_York
