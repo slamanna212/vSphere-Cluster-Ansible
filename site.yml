@@ -49,3 +49,9 @@
   roles:
     - ubuntu  
     - haproxy
+
+- name: Configure and deploy Health Server
+  hosts: zabbix-server
+  become: true
+  roles:
+    - ubuntu
