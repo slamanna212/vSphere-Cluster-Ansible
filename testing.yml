@@ -1,0 +1,5 @@
+- name: Configure and deploy Tunnel
+  hosts: tunnel
+  become: true
+  roles:
+    - zabbix-agent
