@@ -50,8 +50,22 @@
     - ubuntu  
     - haproxy
 
+- name: Configure and deploy Tunnel
+  hosts: tunnel
+  become: true
+  roles:
+    - ubuntu
+
+- name: Configure and deploy Bluesky PDS
+  hosts: bluesky
+  become: true
+  roles:
+    - ubuntu
+
 - name: Configure and deploy Health Server
   hosts: zabbix-server
   become: true
   roles:
     - ubuntu
+
+
