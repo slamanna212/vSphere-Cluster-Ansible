@@ -56,7 +56,7 @@ The following host groups are used in these playbooks.
  - [ubuntu]
 
 # Playbooks
- - `site.yml` - Entire Cluster. *Meant to be run on a schedule/cron.*
+ - `site.yml` - Entire Cluster. *Meant to be run on a schedule/cron. Weekly*
 
 ## *Lifecycle
  - `NewDatabase.yml` - Creates a database, allows the rest of the cluster to talk to it. 
@@ -65,4 +65,4 @@ The following host groups are used in these playbooks.
 ## *Utility
  - `ClearNginxCache.yml` - Clears the FastCGI cache for a website. Useful to run this after making big changes to a site.
  - `ReloadWeb.yml` - Reloads the configuration for all of the Web and WPAdmin servers. Run after making nginx config changes. 
- - `WordpressUpdater.yml` - Updates all Plugins, all Themes, and the core Wordpress version for all WordPress sites on the cluster. *Meant to be run on a schedule/cron.*
+ - `WordpressUpdater.yml` - Updates all Plugins, all Themes, and the core Wordpress version for all WordPress sites on the cluster. *Meant to be run on a schedule/cron. Daily*
