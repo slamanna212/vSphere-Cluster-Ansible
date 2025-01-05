@@ -1,3 +1,5 @@
 ---
-# Example Var
+#Healthchecks.io
+WordpressUpdaterHC: https://hc-ping.com/123123asdasd12eqsd
+# HAProxy
 HAProxyStatsPassword: ExamplePassword

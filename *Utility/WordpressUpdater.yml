@@ -5,6 +5,12 @@
     wp_sites: "{{ output.files|map(attribute='path')|map('basename')|list }}"
 
   tasks: 
+    - name: Tell Healthchecks.io that we started the playbook
+      ansible.builtin.uri:
+        url: {{ WordpressUpdaterHC }}/start
+        timeout: 10
+        force: true
+
     - name: Generate list of Wordpress sites
       ansible.builtin.find:
         paths: /mnt/Web/Websites/Wordpress
@@ -35,3 +41,9 @@
       loop: "{{ wp_sites }}"
       throttle: 1
       ignore_errors: True
+
+    - name: Tell Healthchecks.io that we finished the playbook
+      ansible.builtin.uri:
+        url: {{ WordpressUpdaterHC }}
+        timeout: 10
+        force: true
