@@ -7,7 +7,7 @@
   tasks: 
     - name: Tell Healthchecks.io that we started the playbook
       ansible.builtin.uri:
-        url: {{ WordpressUpdaterHC }}/start
+        url: "{{ WordpressUpdaterHC }}/start"
         timeout: 10
         force: true
 
@@ -44,6 +44,6 @@
 
     - name: Tell Healthchecks.io that we finished the playbook
       ansible.builtin.uri:
-        url: {{ WordpressUpdaterHC }}
+        url: "{{ WordpressUpdaterHC }}"
         timeout: 10
         force: true
