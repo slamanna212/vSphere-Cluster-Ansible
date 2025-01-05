@@ -1,5 +1,6 @@
 ---
 #Healthchecks.io
 WordpressUpdaterHC: https://hc-ping.com/123123asdasd12eqsd
+SitePlaybookHC: https://hc-ping.com/as3edawdasdasdsad
 # HAProxy
 HAProxyStatsPassword: ExamplePassword

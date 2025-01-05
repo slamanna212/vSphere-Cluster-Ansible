@@ -2,6 +2,16 @@
 # This playbook deploys the entire web hosting stack
 # Database, then file, then control, then web, wpadmin, lb, , Health, Log, Bluesky
 
+
+- name: Start of Job Monitoring
+  hosts: localhost
+  tasks:
+    - name: Tell Healthchecks.io that we started the playbook
+      ansible.builtin.uri:
+        url: "{{ SitePlaybookHC }}/start"
+        timeout: 10
+        force: true
+
 - name: Configure and deploy the Database
   hosts: database
   become: true
@@ -76,4 +86,11 @@
   roles:
     - ubuntu
 
-
+- name: End of Job Monitoring
+  hosts: localhost
+  tasks:
+    - name: Tell Healthchecks.io that we finished the playbook
+      ansible.builtin.uri:
+        url: "{{ SitePlaybookHC }}"
+        timeout: 10
+        force: true
