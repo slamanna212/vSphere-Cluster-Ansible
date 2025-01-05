@@ -1,7 +1,7 @@
 ![Wordpress Updater](https://healthchecks.io/b/2/3d61fb8a-e25b-437b-991e-b17e1b298906.svg) ![Site Playbook](https://healthchecks.io/b/2/f29511d4-f1d7-4477-8ad4-6ef7b1328f87.svg)
 
 # vSphere-Cluster-Ansible
-Ansible playbooks for cluster running on local vSphere server
+Ansible playbooks for web hosting cluster running on local vSphere server. 
 
 # Initial Setup
 1. Create Ansible Server
@@ -17,7 +17,7 @@ Cloudflare is heavily used. A tunnel is used to route all traffic and a Cloudfla
 # Assumptions
 Currently these playbooks assume a couple things, this is being worked on and this list will be reduced eventually.
 
- - An ansible user with passwordpress sudo and public key auth needs to already exist. I use [Cubic](https://github.com/PJ-Singh-001/Cubic) to include this in the initial unintended install of ubuntu.
+ - An ansible user with passwordless sudo and public key auth needs to already exist. I use [Cubic](https://github.com/PJ-Singh-001/Cubic) to include this in the initial unintended install of ubuntu.
  - All VMs use DHCP and a network of 10.90.90.0/24
 
 # Host Groups
