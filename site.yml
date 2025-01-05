@@ -1,8 +1,4 @@
 ---
-# This playbook deploys the entire web hosting stack
-# Database, then file, then control, then web, wpadmin, lb, , Health, Log, Bluesky
-
-
 - name: Start of Job Monitoring
   hosts: localhost
   tasks:
