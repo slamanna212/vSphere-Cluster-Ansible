@@ -33,7 +33,7 @@ Currently these playbooks assume a couple things, this is being worked on and th
 5. Install [Semaphore](https://github.com/semaphoreui/semaphore/releases)
 6. Setup Sempaphore by running `semaphore setup`
 7. Run Semaphore `semaphore server --config=/etc/semaphore/config.json` , You can use screen or a startup manager to make this start automatically.
-8. Go to `http://ip-of-ansible-server:3000`
+8. Go to `http://ip-of-ansible-server:3000` in a web browser. 
 9. Setup your inventory using the example in this repo (`ExampleInventory`)
 10. Setup your Variable Group using `extra_vars_TEMPLATE.yml` as an example.
 11. Setup this or your fork of this repository under Repositories.
