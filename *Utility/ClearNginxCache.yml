@@ -1,0 +1,32 @@
+---
+- hosts: web
+  become: true
+  vars_prompt:
+    - name: domain
+      prompt: Please provide domain name of website cache to clear
+      private: no
+
+  tasks: 
+        - name: Deleting Cache Directory
+          become: yes
+          become_user: root          
+          ansible.builtin.file:
+            path: "/opt/Cache/{{ domain }}/"
+            state: absent
+
+        - name: Recreating Cache Directory
+          become: yes
+          become_user: root          
+          ansible.builtin.file:
+            path: "/opt/Cache/{{ domain }}/"
+            state: directory
+
+        - name: Set permissions on cache directory
+          become: yes
+          become_user: root            
+          ansible.builtin.file:
+            path: "/opt/Cache/{{ domain }}/"
+            state: directory
+            owner: www-data
+            group: www-data
+            recurse: yes
