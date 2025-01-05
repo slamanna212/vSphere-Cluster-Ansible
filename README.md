@@ -18,7 +18,7 @@ Cloudflare is heavily used. A tunnel is used to route all traffic and a Cloudfla
 Currently these playbooks assume a couple things, this is being worked on and this list will be reduced eventually.
 
  - An ansible user with passwordless sudo and public key auth needs to already exist. I use [Cubic](https://github.com/PJ-Singh-001/Cubic) to include this in the initial unintended install of ubuntu.
- - All VMs use DHCP and a network of 10.90.90.0/24
+ - All VMs use DHCP and a network of 10.90.90.0/24 !9
  - All VMs are Ubuntu 24
  - Cloudflare tunnels are setup manually currently.
  - Zabbix templates and Autodiscover actions need to be configured manually.
