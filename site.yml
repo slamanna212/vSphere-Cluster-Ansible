@@ -82,6 +82,20 @@
   roles:
     - ubuntu
 
+- name: Configure and deploy AzuraCast Radio Server
+  hosts: radio
+  become: true
+  roles:
+    - ubuntu
+    - zabbix-agent
+
+- name: Configure and deploy Docker Host
+  hosts: docker
+  become: true
+  roles:
+    - ubuntu
+    - zabbix-agent
+
 - name: End of Job Monitoring
   hosts: localhost
   tasks:
