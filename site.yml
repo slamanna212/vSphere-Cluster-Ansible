@@ -50,6 +50,7 @@
     - nfs-client
     - wp-admin
     - zabbix-agent
+    - wp-cron
 
 - name: Configure and deploy the Loadbalancer
   hosts: loadbalancers
