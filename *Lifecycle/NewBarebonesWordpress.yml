@@ -59,6 +59,13 @@
               path: /mnt/Web/Websites/Wordpress/{{ domain }}
               state: directory
 
+          - name: Create web root if missing
+            become: yes
+            become_user: root  
+            ansible.builtin.file:
+              path: /mnt/Web/Websites/Wordpress/{{ domain }}/public_html
+              state: directory
+
           - name: Add Nginx vhost for website
             become: yes
             become_user: root             
