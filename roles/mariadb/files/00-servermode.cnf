@@ -1,3 +1,4 @@
 [mysqld]
 sql_mode = "NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
-
+innodb_buffer_pool_size=6000M
+key_buffer_size=20M
