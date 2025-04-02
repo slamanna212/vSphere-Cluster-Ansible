@@ -83,6 +83,12 @@
   roles:
     - ubuntu
 
+- name: Configure and deploy Analytics Server
+  hosts: analytics
+  become: true
+  roles:
+    - ubuntu
+
 - name: Configure and deploy AzuraCast Radio Server
   hosts: radio
   become: true
