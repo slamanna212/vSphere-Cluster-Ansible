@@ -1,7 +1,7 @@
 ---
 - name: Force APT to use IPv4
   copy: 
-    src=21000-force-ipv4-transport
+    src=1000-force-ipv4-transport
     dest=/etc/apt/apt.conf.d/1000-force-ipv4-transport
     backup=no
 
