@@ -14,7 +14,6 @@
   roles:
     - ubuntu
     - mariadb
-    - zabbix-agent
 
 - name: Configure and deploy the NFS Server
   hosts: nfs-server
@@ -22,7 +21,6 @@
   roles:
     - ubuntu  
     - nfs-server
-    - zabbix-agent
 
 - name: Configure and deploy the Control Server
   hosts: control
@@ -31,7 +29,6 @@
     - ubuntu
     - nfs-client
     - control
-    - zabbix-agent
 
 - name: Configure and deploy the Web Servers
   hosts: web
@@ -40,7 +37,6 @@
     - ubuntu
     - nfs-client
     - nginx
-    - zabbix-agent
 
 - name: Configure and deploy the Wordpress Admin Servers
   hosts: wp-admin
@@ -49,7 +45,6 @@
     - ubuntu
     - nfs-client
     - wp-admin
-    - zabbix-agent
     - wp-cron
 
 - name: Configure and deploy the Loadbalancer
@@ -61,21 +56,18 @@
   roles:
     - ubuntu  
     - haproxy
-    - zabbix-agent
 
 - name: Configure and deploy Tunnel
   hosts: tunnel
   become: true
   roles:
     - ubuntu
-    - zabbix-agent
 
 - name: Configure and deploy Bluesky PDS
   hosts: bluesky
   become: true
   roles:
     - ubuntu
-    - zabbix-agent
 
 - name: Configure and deploy Health Server
   hosts: zabbix-server
@@ -95,14 +87,12 @@
   become: true
   roles:
     - ubuntu
-    - zabbix-agent
 
 - name: Configure and deploy Docker Host
   hosts: docker
   become: true
   roles:
     - ubuntu
-    - zabbix-agent
 
 - name: End of Job Monitoring
   hosts: localhost
