@@ -1,6 +1,6 @@
 ---
 - name: Disable IPv6
-  template: 
+  copy: 
     src=20-disableip6.conf
     dest=/etc/sysctl.d/20-disableip6.conf
     backup=no
