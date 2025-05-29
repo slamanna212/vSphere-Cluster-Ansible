@@ -1,0 +1,66 @@
+---
+- name: Configure and deploy the Database
+  hosts: database
+  become: true
+  roles:
+    - disableip6
+
+- name: Configure and deploy the NFS Server
+  hosts: nfs-server
+  become: true
+  roles:
+    - disableip6
+
+- name: Configure and deploy the Control Server
+  hosts: control
+  become: true
+  roles:
+    - disableip6
+
+- name: Configure and deploy the Web Servers
+  hosts: web
+  become: true
+  roles:
+    - disableip6
+
+- name: Configure and deploy the Wordpress Admin Servers
+  hosts: wp-admin
+  become: true
+  roles:
+    - disableip6
+
+- name: Configure and deploy the Loadbalancer
+  hosts: loadbalancers
+  become: true
+  roles:
+    - disableip6
+
+- name: Configure and deploy Tunnel
+  hosts: tunnel
+  become: true
+  roles:
+    - disableip6
+
+- name: Configure and deploy Bluesky PDS
+  hosts: bluesky
+  become: true
+  roles:
+    - disableip6
+
+- name: Configure and deploy Health Server
+  hosts: zabbix-server
+  become: true
+  roles:
+    - disableip6
+
+- name: Configure and deploy AzuraCast Radio Server
+  hosts: radio
+  become: true
+  roles:
+    - disableip6
+
+- name: Configure and deploy Docker Host
+  hosts: docker
+  become: true
+  roles:
+    - disableip6
