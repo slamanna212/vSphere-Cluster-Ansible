@@ -88,6 +88,7 @@
   become: true
   roles:
     - ubuntu
+  ignore_errors: true  
 
 - name: Configure and deploy AzuraCast Radio Server
   hosts: radio
