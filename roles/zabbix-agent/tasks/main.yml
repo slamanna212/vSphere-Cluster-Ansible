@@ -42,4 +42,4 @@
     src=zabbix_agent2.conf 
     dest=/etc/zabbix/zabbix_agent2.conf 
     backup=no
-  notify: restart zabbix_agent   
+  notify: restart zabbix_agent
