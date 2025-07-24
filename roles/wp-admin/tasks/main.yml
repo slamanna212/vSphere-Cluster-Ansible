@@ -3,7 +3,7 @@
 - name: Add Nginx APT Key
   ansible.builtin.apt_key:
     keyserver: keyserver.ubuntu.com
-    id: ABF5BD827BD9BF62
+    id: 2FD21310B49F6B46
 
 - name: Add Nginx APT Repo
   become: yes
