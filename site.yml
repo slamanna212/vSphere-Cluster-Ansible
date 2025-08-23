@@ -22,14 +22,6 @@
     - ubuntu  
     - nfs-server
 
-- name: Configure and deploy the Control Server
-  hosts: control
-  become: true
-  roles:
-    - ubuntu
-    - nfs-client
-    - control
-
 - name: Configure and deploy the Web Servers
   hosts: web
   become: true
